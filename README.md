@@ -13,6 +13,8 @@ Follow the initial setup instructions given [here](https://github.com/am15h/tfli
 TFLite Helper depends on [flutter image package](https://pub.dev/packages/image) internally for
 Image Processing.
 
+**Note:** All type parameters for `TensorBuffer`, `TensorImage`, etc. must now be specified as strings (e.g., `'uint8'`, `'float32'`), not enums like `TfLiteType.uint8`.
+
 The TensorFlow Lite Support Library has a suite of basic image manipulation methods such as crop
 and resize. To use it, create an `ImageProcessor` and add the required operations.
 To convert the image into the tensor format required by the TensorFlow Lite interpreter,
@@ -54,9 +56,9 @@ Sample app: [Audio Classification](https://github.com/am15h/tflite_flutter_helpe
 
 ```dart
 // Create a container for the result and specify that this is a quantized model.
-// Hence, the 'DataType' is defined as UINT8 (8-bit unsigned integer)
+// Hence, the 'dataType' is defined as 'uint8' (8-bit unsigned integer)
 TensorBuffer probabilityBuffer =
-    TensorBuffer.createFixedSize(<int>[1, 1001], TfLiteType.uint8);
+    TensorBuffer.createFixedSize(<int>[1, 1001], 'uint8');
 ```
 
 #### Loading the model and running inference:

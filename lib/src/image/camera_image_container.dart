@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:image/image.dart';
 import 'package:quiver/check.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/src/image/color_space_type.dart';
 import 'package:tflite_flutter_helper/src/image/base_image_container.dart';
 import 'package:tflite_flutter_helper/src/tensorbuffer/tensorbuffer.dart';
@@ -30,7 +29,7 @@ class CameraImageContainer extends BaseImageContainer {
   }
 
   @override
-  TensorBuffer getTensorBuffer(TfLiteType dataType) {
+  TensorBuffer getTensorBuffer(dynamic dataType) {
     throw UnsupportedError(
         'Converting CameraImage to TensorBuffer is not supported.');
   }
