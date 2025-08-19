@@ -1,11 +1,10 @@
-import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/src/common/support_preconditions.dart';
 
 import 'tensorbuffer.dart';
 
 /// Represents data buffer with float(double) values.
 class TensorBufferFloat extends TensorBuffer {
-  static const TfLiteType DATA_TYPE = TfLiteType.float32;
+  static const String DATA_TYPE = 'float32';
 
   /// Creates a [TensorBufferFloat] with specified [shape].
   ///
@@ -15,7 +14,7 @@ class TensorBufferFloat extends TensorBuffer {
   TensorBufferFloat.dynamic() : super.dynamic();
 
   @override
-  TfLiteType getDataType() {
+  dynamic getDataType() {
     return DATA_TYPE;
   }
 

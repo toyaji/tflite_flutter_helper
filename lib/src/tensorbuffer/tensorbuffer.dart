@@ -49,15 +49,14 @@ abstract class TensorBuffer {
   ///
   /// Throws [ArgumentError.notNull] if [shape] is null and
   /// [ArgumentError] is [shape] has non-positive elements.
-  static TensorBuffer createFixedSize(List<int> shape, TfLiteType dataType) {
-    switch (dataType) {
-      case TfLiteType.float32:
-        return TensorBufferFloat(shape);
-      case TfLiteType.uint8:
-        return TensorBufferUint8(shape);
-      default:
-        throw ArgumentError(
-            'TensorBuffer does not support data type: \" +$dataType');
+  static TensorBuffer createFixedSize(List<int> shape, dynamic dataType) {
+    final dtStr = dataType.toString().toLowerCase();
+    if (dtStr.contains('float32')) {
+      return TensorBufferFloat(shape);
+    } else if (dtStr.contains('uint8')) {
+      return TensorBufferUint8(shape);
+    } else {
+      throw ArgumentError('TensorBuffer does not support data type: $dataType');
     }
   }
 
@@ -68,22 +67,21 @@ abstract class TensorBuffer {
   ///
   /// Dynamic TensorBuffers will reallocate memory when loading arrays or data buffers of
   /// different buffer sizes.
-  static TensorBuffer createDynamic(TfLiteType dataType) {
-    switch (dataType) {
-      case TfLiteType.float32:
-        return TensorBufferFloat.dynamic();
-      case TfLiteType.uint8:
-        return TensorBufferUint8.dynamic();
-      default:
-        throw ArgumentError(
-            'TensorBuffer does not support data type: \" +$dataType');
+  static TensorBuffer createDynamic(dynamic dataType) {
+    final dtStr = dataType.toString().toLowerCase();
+    if (dtStr.contains('float32')) {
+      return TensorBufferFloat.dynamic();
+    } else if (dtStr.contains('uint8')) {
+      return TensorBufferUint8.dynamic();
+    } else {
+      throw ArgumentError('TensorBuffer does not support data type: $dataType');
     }
   }
 
   /// Creates a [TensorBuffer] deep-copying data from another, with specified [TfLiteType].
   ///
   /// Throws [ArgumentError.notNull] if [buffer] is null.
-  static TensorBuffer createFrom(TensorBuffer buffer, TfLiteType dataType) {
+  static TensorBuffer createFrom(TensorBuffer buffer, dynamic dataType) {
     SupportPreconditions.checkNotNull(buffer,
         message: "Cannot create a buffer from null");
     TensorBuffer result;
@@ -95,8 +93,9 @@ abstract class TensorBuffer {
     // The only scenario we need float array is FLOAT32->FLOAT32, or we can always use INT as
     // intermediate container.
     // The assumption is not true when we support other data types.
-    if (buffer.getDataType() == TfLiteType.float32 &&
-        dataType == TfLiteType.float32) {
+    final bufTypeStr = buffer.getDataType().toString().toLowerCase();
+    final dataTypeStr = dataType.toString().toLowerCase();
+    if (bufTypeStr.contains('float32') && dataTypeStr.contains('float32')) {
       List<double> data = buffer.getDoubleList();
       result.loadList(data, shape: buffer.shape);
     } else {
@@ -119,7 +118,7 @@ abstract class TensorBuffer {
   List<int> getShape() => shape;
 
   /// Returns the data type of this buffer.
-  TfLiteType getDataType();
+  dynamic getDataType();
 
   /// Returns a List<double> of the values stored in this buffer. If the buffer is of different types
   /// than double, the values will be converted into double. For example, values in
