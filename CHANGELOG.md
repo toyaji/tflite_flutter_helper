@@ -1,3 +1,6 @@
+# [0.3.2] - 2025-08-19
+* See 1.0.0 section for major breaking changes and migration guide.
+* Minor fixes and documentation updates for pub.dev compliance.
 # [1.0.0] - Major Breaking Changes
 * **Breaking:** All type parameters for TensorBuffer, TensorImage, etc. must now be specified as strings (e.g., 'uint8', 'float32'), not enums like TfLiteType.uint8.
 * **Breaking:** Updated all image/tensor buffer APIs for latest image package and Flutter 3.x+ compatibility.
